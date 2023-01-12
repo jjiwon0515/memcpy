@@ -69,10 +69,15 @@ char* fast_memcpy(char* dest, const char* src, size_t len){
 //m32 : 32비트로 컴파일하는 명령어 옵션이다. -> 굳이 32비트로 한 이유가 있을까? -> 특징?
 //lm : 수학라이브러리를 포함시키는 옵션이다. -> <math.h>는 여러 수학 함수들을 포함하는 C언어의 표준 라이러리(해당 코드는 math.h를 포함하고 있다.)
 int main(void){
-
+        
+        
+        // setvbuf 함수 : 버퍼를 만드는 함수이다. 
         setvbuf(stdout, 0, _IONBF, 0);
         setvbuf(stdin, 0, _IOLBF, 0);
-
+        
+        
+        
+        
         printf("Hey, I have a boring assignment for CS class.. :(\n");
         printf("The assignment is simple.\n");
 
@@ -120,14 +125,15 @@ int main(void){
                 printf("specify the memcpy amount between %d ~ %d : ", low, high);
                 
                 scanf("%d", &size);
-                // high < size < low 만약 이런 형태로 입력값을 넣어버리면 경고 메시지와 함께 프로그램이 종료                 // 된다.
+                // high < size < low 만약 이런 형태로 입력값을 넣어버리면 경고 메시지와 함께 프로그램이 종료된다.
                 if( size < low || size > high ){
                         printf("don't mess with the experiment.\n");
                         exit(0);
                 }
                 
                 
-                // ?
+                // size[0] == 내가 첫 번째로 입력한 값 ,size[1] == 내가 두 번째로 입력한 값, size[2], size[3], size[4]..... size[9]
+                // 
                 sizes[i++] = size;
         }
 
@@ -138,7 +144,7 @@ int main(void){
         // run experiment
         for(i=0; i<10; i++){
                 //i =0~10
-                //sizes[0] == 8, sizes[1] == 16, size[2] == 32....
+                //sizes[0] == 첫 번째로 입력한 값, sizes[1] == 두 번째로 입력한 값, size[2] == 세 번째로 입력한 값.... size[9]
                 size = sizes[i];
                 printf("experiment %d : memcpy with buffer size %d\n", i+1, size);
                 
@@ -160,14 +166,14 @@ int main(void){
                 // Ex) 속도가 느린 하드디스크의 데이터를 메모리로 가지고 와서 메모리 상에서 읽기 쓰기를
                 // 수행하는 것을 '데이터를 메모리에 캐싱한다'라고 한다.
              
-                
+                // cache1, cache2, src 변수들은 모두 mmap 함수한 결과의 반환값이다. 즉, 포인터 값
                 #slow_memcpy
                 memcpy(cache1, cache2, 0x4000);         // to eliminate cache effect 
                                                         // 캐시효과란?
                 t1 = rdtsc();
                 slow_memcpy(dest, src, size);           // byte-to-byte memcpy
                                                         // int i;
-                                                             for (i=0; i<len; i++) {
+                                                             for (i=0; i<size; i++) {
                                                              dest[i] = src[i];
                                                            }
                                                            return dest;
@@ -188,6 +194,8 @@ int main(void){
         }
 
         printf("thanks for helping my experiment!\n");
+        
+        
         // 이 소스코드를 지워라.... -> 위를 다시보면 mmap함수를 통해서 데이터 입출력이 가능하다고 했다.
         // 그 점을 이용하면 문제를 해결할 수 있을 것 같다.
         printf("flag : ----- erased in this source code -----\n");
@@ -248,3 +256,7 @@ ellapsed CPU cycles for fast_memcpy : 328
 experiment 5 : memcpy with buffer size 128
 ellapsed CPU cycles for slow_memcpy : 2236
 --> ?
+
+
+1_w4nn4_br34K_th3_m3m0ry_4lignm3nt
+다시 랜덤값을 넣었더니 답을 구했다...?
